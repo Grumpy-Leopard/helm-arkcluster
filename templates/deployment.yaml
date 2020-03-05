@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "ark-cluster"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "ark-cluster"
+  template:
+    metadata:
+      labels:
+        app: "ark-cluster"
+    spec:
+      volumes:
+        - name: "installdir"
+          persistentVolumeClaim:
+            claimName: "installdir"
+        - name: "saves"
+          persistentVolumeClaim:
+            claimName: "saves"
+      initContainers:
+        - name: "installer"
+          image: "grumpyleopard/arkserver-init"
+          volumeMounts:
+            - name: "installdir"
+              mountPath: "/home/steam/ark"
+      containers:
+        {{- $clusterid := .Values.clusterID -}}
+        {{- $maxplayers := .Values.maxPlayers -}}
+        {{- $activeevent := .Values.activeEvent -}}
+        {{- $sessionname := .Values.sessionNameBase -}}
+        {{- range .Values.instance }}
+        - name: {{ .map | lower | replace "_" "-" | quote }}
+          image: "grumpyleopard/arkserver"
+          volumeMounts:
+            - name: "installdir"
+              mountPath: "/home/steam/ark"
+              readOnly: true
+            - name: "saves"
+              mountPath: "/home/steam/ark/ShooterGame/Saved"
+          env:
+            - name: "MAP"
+              value: {{ .map | quote }}
+            - name: "QUERYPORT"
+              value: {{ .port | quote }}
+            - name: "SESSIONNAME"
+              value: {{ printf "%s - %s" $sessionname .name | quote }}
+            - name: "CLUSTERID"
+              value: {{ $clusterid | quote }}
+            - name: "MAXPLAYERS"
+              value: {{ $maxplayers | quote }}
+            - name: "ACTIVEEVENT"
+              value: {{ $activeevent | quote }}
+        {{- end }}

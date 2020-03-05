@@ -1,0 +1,32 @@
+maxPlayers: 25
+
+clusterID: ""
+activeEvent: None
+
+sessionNameBase: Ark Survival Evolved on Kubernetes
+
+instance:
+  - name: The Island
+    map: TheIsland
+    port: 27015
+  - name: The Center
+    map: TheCenter
+    port: 27016
+  - name: Scorched Earth
+    map: ScorchedEarth_P
+    port: 27017
+  - name: Ragnarok
+    map: Ragnarok
+    port: 27018
+  - name: Aberration
+    map: Aberration_P
+    port: 27019
+  - name: Extinction
+    map: Extinction
+    port: 27020
+  - name: Valguero
+    map: Valguero_P
+    port: 27021
+  - name: Genesis
+    map: Genesis
+    port: 27022
