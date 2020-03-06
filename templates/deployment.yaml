@@ -21,7 +21,7 @@ spec:
             claimName: "saves"
       initContainers:
         - name: "installer"
-          image: "grumpyleopard/arkserver-init"
+          image: "grumpyleopard/helm-arkcluster-init"
           volumeMounts:
             - name: "installdir"
               mountPath: "/home/steam/ark"
@@ -32,7 +32,7 @@ spec:
         {{- $sessionname := .Values.sessionNameBase -}}
         {{- range .Values.instance }}
         - name: {{ .map | lower | replace "_" "-" | quote }}
-          image: "grumpyleopard/arkserver"
+          image: "grumpyleopard/helm-arkcluster-instance"
           volumeMounts:
             - name: "installdir"
               mountPath: "/home/steam/ark"
