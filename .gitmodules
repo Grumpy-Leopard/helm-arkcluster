@@ -1,0 +1,6 @@
+[submodule "containers/init"]
+	path = containers/init
+	url = https://github.com/Grumpy-Leopard/helm-arkcluster-init
+[submodule "containers/instance"]
+	path = containers/instance
+	url = https://github.com/Grumpy-Leopard/helm-arkcluster-instance
